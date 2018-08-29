@@ -6,21 +6,23 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
 
-	<persistence-unit name="JPADB" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="JPADB" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>myDataSource</jta-data-source>
 		<properties>
-			<!-- Database connection properties -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/hibernate_bitronix_tutorial" />
-			<property name="javax.persistence.jdbc.user" value="postgres" />
-			<property name="javax.persistence.jdbc.password" value="asdf1234" />
-			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="current_session_context_class" value="jta" />
+			<property name="transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory" />
+			<property name="transaction.manager_lookup_class" value="org.hibernate.transaction.BTMTransactionManagerLookup" />
+			<!-- <property name="hibernate.jndi.class" value="bitronix.tm.jndi.BitronixInitialContextFactory"/> -->
 
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />
-			
+
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			
+		
+			<property name="cache.provider_class" value = "org.hibernate.cache.NoCacheProvider" />
+		
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 	</persistence-unit>
